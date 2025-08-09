@@ -3,7 +3,8 @@ import Database from "better-sqlite3";
 import bcrypt from "bcryptjs";
 import { Count, User } from "@/lib/types";
 
-const db = new Database("./afwasaanwijzer.db");
+const dbPath = process.env.DATABASE_PATH || './afwasaanwijzer.db';
+const db = new Database(dbPath);
 
 export function getDb() {
   return db;
