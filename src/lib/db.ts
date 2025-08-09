@@ -3,7 +3,7 @@ import Database from "better-sqlite3";
 import bcrypt from "bcryptjs";
 import { Count, User } from "@/lib/types";
 
-const dbPath = process.env.DATABASE_PATH || './afwasaanwijzer.db';
+const dbPath = process.env.DATABASE_PATH || "./afwasaanwijzer.db";
 const db = new Database(dbPath);
 
 export function getDb() {
@@ -57,16 +57,14 @@ export function getAllEaters() {
 export function addHistory(
   dishwashers: string[],
   present: string[],
-  hasCooked: string[],
-  price?: number
+  hasCooked: string[]
 ) {
   db.prepare(
     "INSERT INTO history (dishwashers, present, hasCooked, price) VALUES (?, ?, ?, ?)"
   ).run(
     JSON.stringify(dishwashers),
     JSON.stringify(present),
-    JSON.stringify(hasCooked),
-    price || null
+    JSON.stringify(hasCooked)
   );
 }
 

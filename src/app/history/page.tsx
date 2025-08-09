@@ -8,7 +8,6 @@ type HistoryEntry = {
   dishwashers: string;
   present: string;
   hasCooked: string;
-  price: number | null;
   timestamp: string;
 };
 
@@ -47,6 +46,8 @@ export default function History() {
     return new Date(timestamp).toLocaleString("nl-NL");
   };
 
+  console.log({ data });
+
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-8">
@@ -68,7 +69,6 @@ export default function History() {
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h3 className="font-bold text-lg">Afwassers Selectie</h3>
-                  {entry.price && <p className="text-sm text-gray-600">Totaal: €{entry.price.toFixed(2)}</p>}
                 </div>
                 <span className="text-sm text-gray-600">
                   {formatDate(entry.timestamp)}

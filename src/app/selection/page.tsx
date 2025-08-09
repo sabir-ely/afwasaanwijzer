@@ -95,7 +95,6 @@ export default function Selection() {
         dishwashers: dishwasherNames,
         present: presentNames,
         hasCooked: hasCookedNames,
-        price: 0,
       }),
     });
 

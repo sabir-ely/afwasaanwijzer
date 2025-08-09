@@ -30,9 +30,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     initDb();
-    const { dishwashers, present, hasCooked, price } = await request.json();
+    const { dishwashers, present, hasCooked } = await request.json();
 
-    addHistory(dishwashers, present, hasCooked, price);
+    addHistory(dishwashers, present, hasCooked);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
