@@ -12,6 +12,7 @@ export default function Selection() {
   const [hasCooked, setHasCooked] = useState<number[]>([]);
   const [showDishwasherModal, setShowDishwasherModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
   const router = useRouter();
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function Selection() {
 
     // Get present eaters with updated scores
     const response = await fetch("/api/eaters");
-    const allEaters = await response.json();
+    const allEaters: Eater[] = await response.json();
     const presentEaters = allEaters.filter((e: Eater) =>
       present.includes(e.id)
     );
@@ -104,10 +105,13 @@ export default function Selection() {
     // Navigate to result page
     const dishwasherIds = dishwashers.map((x) => x.id);
     const cookerIds = hasCookedEaters.map((x) => x.id);
+    const presentIds = presentEaters.map((x) => x.id);
     router.push(
       `/result?dishwashers=${JSON.stringify(
         dishwasherIds
-      )}&cookers=${JSON.stringify(cookerIds)}`
+      )}&cookers=${JSON.stringify(cookerIds)}&present=${JSON.stringify(
+        presentIds
+      )}`
     );
   };
 
