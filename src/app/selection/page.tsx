@@ -121,6 +121,7 @@ export default function Selection() {
     const newHasCooked = hasCooked.filter((i) => i !== id);
     setPresent(newPresent);
     setHasCooked(newHasCooked);
+    setSearchTerm("");
     localStorage.setItem("selection-present", JSON.stringify(newPresent));
     localStorage.setItem("selection-hasCooked", JSON.stringify(newHasCooked));
   };
@@ -130,6 +131,7 @@ export default function Selection() {
     const newPresent = present.filter((i) => i !== id);
     setHasCooked(newHasCooked);
     setPresent(newPresent);
+    setSearchTerm("");
     localStorage.setItem("selection-hasCooked", JSON.stringify(newHasCooked));
     localStorage.setItem("selection-present", JSON.stringify(newPresent));
   };
@@ -172,46 +174,19 @@ export default function Selection() {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-4">
-        <div className="border-2 border-gray-300 rounded p-2 sm:p-4 min-h-48 lg:min-h-96 w-full lg:w-120">
-          <h3 className="font-bold mb-2 text-center text-sm sm:text-base">
-            Niet Geselecteerd
-          </h3>
-          <input
-            type="text"
-            placeholder="Zoek naam..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-2 border rounded text-base mb-2"
-          />
-          <div className="space-y-2">
-            {unselectedEaters.map((eater) => (
-              <div
-                key={eater.id}
-                className="p-2 bg-gray-100 rounded cursor-pointer"
-              >
-                <div className="font-medium text-base">{eater.name}</div>
-                <div className="flex gap-2 mt-2">
-                  <button
-                    onClick={() => moveToPresent(eater.id)}
-                    className="text-xs py-3 px-2 bg-blue-500 text-white rounded flex-1"
-                  >
-                    Aanwezig
-                  </button>
-                  <button
-                    onClick={() => moveToHasCooked(eater.id)}
-                    className="text-xs py-3 px-2 bg-green-500 text-white rounded flex-1"
-                  >
-                    Heeft Gekookt
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Zoek naam..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full p-2 border rounded text-base"
+        />
+      </div>
 
-        <div className="flex-1 space-y-4">
-          <div className="border-2 border-green-300 rounded p-2 sm:p-4 min-h-24">
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="lg:order-2 flex flex-col lg:flex-row gap-4 lg:flex-1">
+          <div className="border-2 border-green-300 rounded p-2 sm:p-4 min-h-24 flex-1">
             <h3 className="font-bold mb-4 text-center text-green-600 text-sm sm:text-base">
               Heeft Gekookt
             </h3>
@@ -241,7 +216,7 @@ export default function Selection() {
             </div>
           </div>
 
-          <div className="border-2 border-blue-300 rounded p-2 sm:p-4 min-h-48 lg:min-h-96">
+          <div className="border-2 border-blue-300 rounded p-2 sm:p-4 min-h-24 flex-1">
             <h3 className="font-bold mb-4 text-center text-blue-600 text-sm sm:text-base">
               Aanwezig
             </h3>
@@ -269,6 +244,36 @@ export default function Selection() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        <div className="lg:order-1 border-2 border-gray-300 rounded p-2 sm:p-4 min-h-48 lg:min-h-96 w-full lg:w-120">
+          <h3 className="font-bold mb-2 text-center text-sm sm:text-base">
+            Niet Geselecteerd
+          </h3>
+          <div className="space-y-2">
+            {unselectedEaters.map((eater) => (
+              <div
+                key={eater.id}
+                className="p-2 bg-gray-100 rounded cursor-pointer"
+              >
+                <div className="font-medium text-base">{eater.name}</div>
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={() => moveToPresent(eater.id)}
+                    className="text-xs py-3 px-2 bg-blue-500 text-white rounded flex-1"
+                  >
+                    Aanwezig
+                  </button>
+                  <button
+                    onClick={() => moveToHasCooked(eater.id)}
+                    className="text-xs py-3 px-2 bg-green-500 text-white rounded flex-1"
+                  >
+                    Heeft Gekookt
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
