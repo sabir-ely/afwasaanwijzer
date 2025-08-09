@@ -1,3 +1,17 @@
+Simpele applicatie die afwassers aanwijst op basis van of mensen gekookt hebben of al eerder hebben afgewassen.
+
+Hoe het werkt is:
+
+- Koken: -1 punt
+- Afwassen: -1 punt
+- Mee-eten maar niet koken/niet afwassen: +1 punt
+
+De afwassers worden dan altijd gekozen uit de mensen met de meeste punten. 
+
+Zo zorgen we ervoor dat iedereen evenveel bijdraagt.
+
+----
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
