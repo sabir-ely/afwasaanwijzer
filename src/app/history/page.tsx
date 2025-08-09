@@ -1,4 +1,5 @@
 'use client'
+import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -21,9 +22,19 @@ type HistoryResponse = {
 }
 
 export default function History() {
+  const { data: session, status } = useSession()
   const [data, setData] = useState<HistoryResponse | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const router = useRouter()
+
+  useEffect(() => {
+    if (status !== 'loading' && !session) {
+      router.push('/login')
+    }
+  }, [session, status, router])
+
+  if (status === 'loading') return <div>Laden...</div>
+  if (!session) return null
 
   useEffect(() => {
     fetch(`/api/history?page=${currentPage}`)

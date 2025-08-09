@@ -1,4 +1,5 @@
 'use client'
+import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -9,9 +10,19 @@ type Eater = {
 }
 
 export default function Result() {
+  const { data: session, status } = useSession()
   const [dishwashers, setDishwashers] = useState<Eater[]>([])
   const router = useRouter()
   const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (status !== 'loading' && !session) {
+      router.push('/login')
+    }
+  }, [session, status, router])
+
+  if (status === 'loading') return <div>Laden...</div>
+  if (!session) return null
 
   useEffect(() => {
     const dishwasherIds = searchParams.get('dishwashers')
