@@ -11,6 +11,7 @@ export default function Selection() {
   const [present, setPresent] = useState<number[]>([]);
   const [hasCooked, setHasCooked] = useState<number[]>([]);
   const [showDishwasherModal, setShowDishwasherModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -133,51 +134,63 @@ export default function Selection() {
   };
 
   const unselectedEaters = eaters.filter(
-    (e) => !present.includes(e.id) && !hasCooked.includes(e.id)
+    (e) =>
+      !present.includes(e.id) &&
+      !hasCooked.includes(e.id) &&
+      e.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const presentEaters = eaters.filter((e) => present.includes(e.id));
   const hasCookedEaters = eaters.filter((e) => hasCooked.includes(e.id));
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Selectie</h1>
-        <div className="flex gap-2">
+    <div className="p-4 sm:p-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <h1 className="text-xl sm:text-2xl font-bold">Selectie</h1>
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <button
             onClick={() => router.push("/history")}
-            className="p-2 bg-blue-500 text-white rounded"
+            className="p-2 bg-blue-500 text-white rounded text-sm"
           >
             Geschiedenis
           </button>
           <button
             onClick={() => router.push("/")}
-            className="p-2 bg-gray-500 text-white rounded"
+            className="p-2 bg-gray-500 text-white rounded text-sm"
           >
             Terug naar Home
           </button>
         </div>
       </div>
 
-      <div className="flex gap-4">
-        <div className="border-2 border-gray-300 rounded p-4 min-h-96 flex-1">
-          <h3 className="font-bold mb-4 text-center">Niet Geselecteerd</h3>
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="border-2 border-gray-300 rounded p-2 sm:p-4 min-h-48 lg:min-h-96 w-full lg:w-120">
+          <h3 className="font-bold mb-2 text-center text-sm sm:text-base">
+            Niet Geselecteerd
+          </h3>
+          <input
+            type="text"
+            placeholder="Zoek naam..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full p-2 border rounded text-base mb-2"
+          />
           <div className="space-y-2">
             {unselectedEaters.map((eater) => (
               <div
                 key={eater.id}
                 className="p-2 bg-gray-100 rounded cursor-pointer"
               >
-                <div className="font-medium">{eater.name}</div>
+                <div className="font-medium text-base">{eater.name}</div>
                 <div className="flex gap-2 mt-2">
                   <button
                     onClick={() => moveToPresent(eater.id)}
-                    className="text-xs p-1 bg-blue-500 text-white rounded"
+                    className="text-xs py-3 px-2 bg-blue-500 text-white rounded flex-1"
                   >
                     Aanwezig
                   </button>
                   <button
                     onClick={() => moveToHasCooked(eater.id)}
-                    className="text-xs p-1 bg-green-500 text-white rounded"
+                    className="text-xs py-3 px-2 bg-green-500 text-white rounded flex-1"
                   >
                     Heeft Gekookt
                   </button>
@@ -188,8 +201,8 @@ export default function Selection() {
         </div>
 
         <div className="flex-1 space-y-4">
-          <div className="border-2 border-green-300 rounded p-4 min-h-24">
-            <h3 className="font-bold mb-4 text-center text-green-600">
+          <div className="border-2 border-green-300 rounded p-2 sm:p-4 min-h-24">
+            <h3 className="font-bold mb-4 text-center text-green-600 text-sm sm:text-base">
               Heeft Gekookt
             </h3>
             <div className="space-y-2">
@@ -198,7 +211,7 @@ export default function Selection() {
                   key={eater.id}
                   className="p-2 bg-green-100 rounded cursor-pointer"
                 >
-                  <div className="font-medium">{eater.name}</div>
+                  <div className="font-medium text-base">{eater.name}</div>
                   <div className="flex gap-2 mt-2">
                     <button
                       onClick={() => moveToUnselected(eater.id)}
@@ -218,8 +231,8 @@ export default function Selection() {
             </div>
           </div>
 
-          <div className="border-2 border-blue-300 rounded p-4 min-h-96">
-            <h3 className="font-bold mb-4 text-center text-blue-600">
+          <div className="border-2 border-blue-300 rounded p-2 sm:p-4 min-h-48 lg:min-h-96">
+            <h3 className="font-bold mb-4 text-center text-blue-600 text-sm sm:text-base">
               Aanwezig
             </h3>
             <div className="space-y-2">
@@ -228,7 +241,7 @@ export default function Selection() {
                   key={eater.id}
                   className="p-2 bg-blue-100 rounded cursor-pointer"
                 >
-                  <div className="font-medium">{eater.name}</div>
+                  <div className="font-medium text-base">{eater.name}</div>
                   <div className="flex gap-2 mt-2">
                     <button
                       onClick={() => moveToUnselected(eater.id)}
@@ -253,7 +266,7 @@ export default function Selection() {
       <div className="text-center mt-8">
         <button
           onClick={() => setShowDishwasherModal(true)}
-          className="p-3 bg-purple-500 text-white rounded-lg text-lg"
+          className="p-3 bg-purple-500 text-white rounded-lg text-sm sm:text-lg w-full sm:w-auto"
         >
           Afwassers Kiezen
         </button>

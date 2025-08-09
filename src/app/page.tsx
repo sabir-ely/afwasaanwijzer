@@ -75,53 +75,56 @@ export default function Home() {
 
   return (
     <div className="p-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1>Welkom, {session.user?.name}!</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <h1 className="text-lg sm:text-xl">Welkom, {session.user?.name}!</h1>
         <button
           onClick={() => setShowLogoutModal(true)}
-          className="p-2 bg-red-500 text-white rounded"
+          className="p-2 bg-red-500 text-white rounded text-sm"
         >
           Uitloggen
         </button>
       </div>
 
-      <form onSubmit={addEater} className="mb-8">
-        <div className="flex gap-2">
-          <input
-            type="text"
-            placeholder="Naam van eter"
-            value={newEaterName}
-            onChange={(e) => setNewEaterName(e.target.value)}
-            className="p-2 border rounded flex-1"
-          />
-          <button type="submit" className="p-2 bg-blue-500 text-white rounded">
-            Eter Toevoegen
-          </button>
-        </div>
-      </form>
-
-      <div className="flex gap-2 mb-4">
+      <div className="flex flex-col sm:flex-row gap-2 mb-12">
         <button
           onClick={() => router.push("/selection")}
-          className="p-2 bg-green-500 text-white rounded"
+          className="p-2 bg-green-500 text-white rounded text-sm"
         >
           Naar Selectie
         </button>
         <button
           onClick={() => router.push("/history")}
-          className="p-2 bg-blue-500 text-white rounded"
+          className="p-2 bg-blue-500 text-white rounded text-sm"
         >
           Geschiedenis
         </button>
         {sessionUserRole === "admin" && (
           <button
             onClick={() => router.push("/admin")}
-            className="p-2 bg-red-500 text-white rounded"
+            className="p-2 bg-red-500 text-white rounded text-sm"
           >
             Admin
           </button>
         )}
       </div>
+
+      <form onSubmit={addEater} className="mb-5">
+        <div className="flex flex-col sm:flex-row gap-2">
+          <input
+            type="text"
+            placeholder="Naam van eter"
+            value={newEaterName}
+            onChange={(e) => setNewEaterName(e.target.value)}
+            className="p-2 border rounded flex-1 text-sm"
+          />
+          <button
+            type="submit"
+            className="p-2 bg-blue-500 text-white rounded text-sm whitespace-nowrap"
+          >
+            Eter Toevoegen
+          </button>
+        </div>
+      </form>
 
       <div>
         <h2 className="text-xl font-bold mb-4">Eters</h2>
@@ -132,7 +135,7 @@ export default function Home() {
             {eaters.map((eater) => (
               <div
                 key={eater.id}
-                className="flex justify-between p-2 border rounded max-w-64"
+                className="flex justify-between p-2 border rounded"
               >
                 <span>{eater.name}</span>
               </div>
