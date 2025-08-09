@@ -102,8 +102,13 @@ export default function Selection() {
     localStorage.removeItem("selection-hasCooked");
 
     // Navigate to result page
-    const dishwasherIds = dishwashers.map((d) => d.id);
-    router.push(`/result?dishwashers=${JSON.stringify(dishwasherIds)}`);
+    const dishwasherIds = dishwashers.map((x) => x.id);
+    const cookerIds = hasCookedEaters.map((x) => x.id);
+    router.push(
+      `/result?dishwashers=${JSON.stringify(
+        dishwasherIds
+      )}&cookers=${JSON.stringify(cookerIds)}`
+    );
   };
 
   const moveToPresent = (id: number) => {

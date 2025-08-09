@@ -4,21 +4,40 @@ import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eater } from "@/lib/types";
 
+const getFullPrice = (
+  total: number,
+  halfPricers: number,
+  fullPricers: number
+) => {
+  return total / (0.5 * halfPricers + fullPricers);
+};
+
 function ResultContent() {
   const { data: session, status } = useSession();
   const [dishwashers, setDishwashers] = useState<Eater[]>([]);
+  const [cookers, setCookers] = useState<Eater[]>([]);
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const dishwasherIds = searchParams.get("dishwashers");
-    if (dishwasherIds) {
-      const ids = JSON.parse(dishwasherIds);
+    const dishwasherIdsParam = searchParams.get("dishwashers");
+    const cookerIdsParam = searchParams.get("cookers");
+
+    if (dishwasherIdsParam && cookerIdsParam) {
+      const dishwasherIds = JSON.parse(dishwasherIdsParam);
+      const cookerIds = JSON.parse(cookerIdsParam);
+
       fetch("/api/eaters")
         .then((res) => res.json())
         .then((eaters: Eater[]) => {
-          const selectedDishwashers = eaters.filter((e) => ids.includes(e.id));
+          const selectedDishwashers = eaters.filter((e) =>
+            dishwasherIds.includes(e.id)
+          );
           setDishwashers(selectedDishwashers);
+
+          const cookers = eaters.filter((e) => cookerIds.includes(e.id));
+          setCookers(cookers);
         });
     }
   }, [searchParams]);
