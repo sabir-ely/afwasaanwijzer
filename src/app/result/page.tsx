@@ -43,9 +43,9 @@ function ResultContent() {
     const presentIdsParam = searchParams.get("present");
 
     if (dishwasherIdsParam && cookerIdsParam && presentIdsParam) {
-      const dishwasherIds = JSON.parse(dishwasherIdsParam);
-      const cookerIds = JSON.parse(cookerIdsParam);
-      const presentIds = JSON.parse(presentIdsParam);
+      const dishwasherIds: number[] = JSON.parse(dishwasherIdsParam);
+      const cookerIds: number[] = JSON.parse(cookerIdsParam);
+      const presentIds: number[] = JSON.parse(presentIdsParam);
 
       fetch("/api/eaters")
         .then((res) => res.json())
@@ -58,7 +58,9 @@ function ResultContent() {
           const cookers = eaters.filter((e) => cookerIds.includes(e.id));
           setCookers(cookers);
 
-          const present = eaters.filter((e) => presentIds.includes(e.id));
+          const present = eaters.filter(
+            (e) => presentIds.includes(e.id) && !dishwasherIds.includes(e.id)
+          );
           setPresentEaters(present);
         });
     }
@@ -135,50 +137,45 @@ function ResultContent() {
           Betaling Checklist
         </h2>
         <div className="space-y-2">
-          {[...cookers, ...dishwashers, ...presentEaters]
-            .filter(
-              (eater, index, self) =>
-                self.findIndex((e) => e.id === eater.id) === index
-            )
-            .map((eater) => {
-              const isCookerOrDishwasher =
-                cookers.some((c) => c.id === eater.id) ||
-                dishwashers.some((d) => d.id === eater.id);
-              const rawAmount = isCookerOrDishwasher
-                ? fullPrice * 0.5
-                : fullPrice;
-              console.log(rawAmount);
-              const amount = roundTo20Cents(rawAmount);
-              const isChecked = checkedItems.has(eater.id);
+          {[...cookers, ...dishwashers, ...presentEaters].map((eater) => {
+            const isCookerOrDishwasher =
+              cookers.some((c) => c.id === eater.id) ||
+              dishwashers.some((d) => d.id === eater.id);
+            const rawAmount = isCookerOrDishwasher
+              ? fullPrice * 0.5
+              : fullPrice;
+            console.log(rawAmount);
+            const amount = roundTo20Cents(rawAmount);
+            const isChecked = checkedItems.has(eater.id);
 
-              return (
-                <div
-                  key={eater.id}
-                  className={`flex items-center justify-between p-2 border rounded ${
-                    isChecked ? "bg-green-100 line-through" : ""
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={() => {
-                        const newChecked = new Set(checkedItems);
-                        if (isChecked) {
-                          newChecked.delete(eater.id);
-                        } else {
-                          newChecked.add(eater.id);
-                        }
-                        setCheckedItems(newChecked);
-                      }}
-                      className="w-4 h-4"
-                    />
-                    <span>{eater.name}</span>
-                  </div>
-                  <span className="font-bold">{formatPrice(amount)}</span>
+            return (
+              <div
+                key={eater.id}
+                className={`flex items-center justify-between p-2 border rounded ${
+                  isChecked ? "bg-green-100 line-through" : ""
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => {
+                      const newChecked = new Set(checkedItems);
+                      if (isChecked) {
+                        newChecked.delete(eater.id);
+                      } else {
+                        newChecked.add(eater.id);
+                      }
+                      setCheckedItems(newChecked);
+                    }}
+                    className="w-4 h-4"
+                  />
+                  <span>{eater.name}</span>
                 </div>
-              );
-            })}
+                <span className="font-bold">{formatPrice(amount)}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
