@@ -155,7 +155,7 @@ export default function Selection() {
   const hasCookedEaters = eaters.filter((e) => hasCooked.includes(e.id));
 
   return (
-    <div className="p-4 sm:p-8">
+    <div className="p-4 mb-10 sm:p-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <h1 className="text-xl sm:text-2xl font-bold">Selectie</h1>
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
@@ -172,16 +172,6 @@ export default function Selection() {
             Terug naar Home
           </button>
         </div>
-      </div>
-
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Zoek naam..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-2 border rounded text-base"
-        />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4">
@@ -247,11 +237,12 @@ export default function Selection() {
           </div>
         </div>
 
-        <div className="lg:order-1 border-2 border-gray-300 rounded p-2 sm:p-4 min-h-48 lg:min-h-96 w-full lg:w-120">
+        <div className="lg:order-1 border-2 border-gray-300 rounded p-2 sm:p-4 w-full lg:w-120 flex flex-col">
           <h3 className="font-bold mb-2 text-center text-sm sm:text-base">
             Niet Geselecteerd
           </h3>
-          <div className="space-y-2">
+
+          <div className="overflow-y-scroll h-[500px] space-y-2 mb-4">
             {unselectedEaters.map((eater) => (
               <div
                 key={eater.id}
@@ -274,6 +265,16 @@ export default function Selection() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-auto">
+            <input
+              type="text"
+              placeholder="Zoek naam..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full p-2 border rounded text-base"
+            />
           </div>
         </div>
       </div>
