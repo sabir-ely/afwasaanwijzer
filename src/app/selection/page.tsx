@@ -241,6 +241,15 @@ export default function Selection() {
           <h3 className="font-bold mb-2 text-center text-sm sm:text-base">
             Niet Geselecteerd
           </h3>
+          <div className="mt-auto">
+            <input
+              type="text"
+              placeholder="Zoek naam..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full p-2 mb-5 border rounded text-base"
+            />
+          </div>
 
           <div className="overflow-y-scroll h-[500px] space-y-2 mb-4">
             {unselectedEaters.map((eater) => (
@@ -265,16 +274,6 @@ export default function Selection() {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="mt-auto">
-            <input
-              type="text"
-              placeholder="Zoek naam..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 border rounded text-base"
-            />
           </div>
         </div>
       </div>
