@@ -1,10 +1,10 @@
 "use client";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eater } from "@/lib/types";
 
-export default function Result() {
+function ResultContent() {
   const { data: session, status } = useSession();
   const [dishwashers, setDishwashers] = useState<Eater[]>([]);
   const router = useRouter();
@@ -59,5 +59,13 @@ export default function Result() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function Result() {
+  return (
+    <Suspense fallback={<div>Laden...</div>}>
+      <ResultContent />
+    </Suspense>
   );
 }
