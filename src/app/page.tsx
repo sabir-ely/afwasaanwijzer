@@ -64,10 +64,10 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (status !== "loading" && !session) {
+    if (status !== "loading" && !session && setupComplete !== false) {
       router.push("/login");
     }
-  }, [session, status, router]);
+  }, [session, status, router, setupComplete]);
 
   if (status === "loading" || setupComplete === null)
     return <div>Laden...</div>;
