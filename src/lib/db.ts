@@ -57,14 +57,16 @@ export function getAllEaters() {
 export function addHistory(
   dishwashers: string[],
   present: string[],
-  hasCooked: string[]
+  hasCooked: string[],
+  price?: number
 ) {
   db.prepare(
-    "INSERT INTO history (dishwashers, present, hasCooked) VALUES (?, ?, ?)"
+    "INSERT INTO history (dishwashers, present, hasCooked, price) VALUES (?, ?, ?, ?)"
   ).run(
     JSON.stringify(dishwashers),
     JSON.stringify(present),
-    JSON.stringify(hasCooked)
+    JSON.stringify(hasCooked),
+    price || null
   );
 }
 

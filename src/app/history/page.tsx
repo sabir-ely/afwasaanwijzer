@@ -8,6 +8,7 @@ type HistoryEntry = {
   dishwashers: string;
   present: string;
   hasCooked: string;
+  price: number | null;
   timestamp: string;
 };
 
@@ -65,7 +66,10 @@ export default function History() {
           data.history.map((entry) => (
             <div key={entry.id} className="border rounded p-4 bg-gray-50">
               <div className="flex justify-between items-start mb-3">
-                <h3 className="font-bold text-lg">Afwassers Selectie</h3>
+                <div>
+                  <h3 className="font-bold text-lg">Afwassers Selectie</h3>
+                  {entry.price && <p className="text-sm text-gray-600">Totaal: €{entry.price.toFixed(2)}</p>}
+                </div>
                 <span className="text-sm text-gray-600">
                   {formatDate(entry.timestamp)}
                 </span>

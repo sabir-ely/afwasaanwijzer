@@ -14,5 +14,6 @@ CREATE TABLE IF NOT EXISTS history (
   dishwashers TEXT NOT NULL,
   present TEXT NOT NULL,
   hasCooked TEXT NOT NULL,
+  price REAL,
   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
