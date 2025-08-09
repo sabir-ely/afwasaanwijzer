@@ -49,7 +49,7 @@ export async function PATCH(request: NextRequest) {
     );
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to update score" },
       { status: 500 }
@@ -66,7 +66,7 @@ export async function DELETE(request: NextRequest) {
     db.prepare("DELETE FROM eaters WHERE id = ?").run(id);
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to delete eater" },
       { status: 500 }

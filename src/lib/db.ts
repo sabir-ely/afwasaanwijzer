@@ -1,18 +1,7 @@
-import * as path from "node:path";
 import { readFileSync } from "node:fs";
 import Database from "better-sqlite3";
 import bcrypt from "bcryptjs";
-
-export type User = {
-  id: number;
-  username: string;
-  password: string;
-  role: string;
-};
-
-type Count = {
-  count: number;
-};
+import { Count, User } from "@/lib/types";
 
 const db = new Database("./afwasaanwijzer.db");
 

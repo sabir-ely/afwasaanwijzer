@@ -3,16 +3,7 @@ import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
-
-type Eater = {
-  id: number;
-  name: string;
-  score: number;
-};
-
-type User = {
-  role: string;
-};
+import { Eater, SessionUser } from "@/lib/types";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -21,6 +12,9 @@ export default function Home() {
   const [newEaterName, setNewEaterName] = useState("");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const router = useRouter();
+
+  const sessionUser: SessionUser = session?.user as SessionUser;
+  const sessionUserRole = sessionUser?.role;
 
   useEffect(() => {
     fetch("/api/setup")
@@ -119,7 +113,7 @@ export default function Home() {
         >
           Geschiedenis
         </button>
-        {(session.user as User)?.role === "admin" && (
+        {sessionUserRole === "admin" && (
           <button
             onClick={() => router.push("/admin")}
             className="p-2 bg-red-500 text-white rounded"

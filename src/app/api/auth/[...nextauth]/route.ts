@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyUser, initDb } from "@/lib/db";
+import { SessionUser } from "@/lib/types";
 
 const handler = NextAuth({
   providers: [
@@ -23,13 +24,13 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role;
+        token.role = (user as SessionUser).role;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        (session.user as any).role = token.role;
+        (session.user as SessionUser).role = (token as SessionUser).role;
       }
       return session;
     },

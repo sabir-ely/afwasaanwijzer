@@ -3,12 +3,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
-
-type Eater = {
-  id: number;
-  name: string;
-  score: number;
-};
+import { Eater } from "@/lib/types";
 
 export default function Selection() {
   const { data: session, status } = useSession();

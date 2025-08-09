@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 
     resetEaterScore(id);
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to reset eater score" },
       { status: 500 }

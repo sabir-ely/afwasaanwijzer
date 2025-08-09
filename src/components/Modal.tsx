@@ -1,12 +1,16 @@
 type ModalProps = {
-  isOpen: boolean
-  onClose: () => void
-  children: React.ReactNode
-  className?: string
-}
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  className?: string;
+};
 
-export default function Modal({ isOpen, onClose, children, className = "max-w-md w-full" }: ModalProps) {
-  if (!isOpen) return null
+export default function Modal({
+  isOpen,
+  children,
+  className = "max-w-md w-full",
+}: ModalProps) {
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 backdrop-blur-md flex items-center justify-center">
@@ -14,5 +18,5 @@ export default function Modal({ isOpen, onClose, children, className = "max-w-md
         {children}
       </div>
     </div>
-  )
+  );
 }

@@ -8,7 +8,7 @@ export async function POST() {
     db.prepare("UPDATE eaters SET score = 0").run();
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to reset scores" },
       { status: 500 }

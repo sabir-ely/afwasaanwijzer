@@ -1,41 +1,36 @@
-'use client'
-import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-
-type Eater = {
-  id: number
-  name: string
-  score: number
-}
+"use client";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Eater } from "@/lib/types";
 
 export default function Result() {
-  const { data: session, status } = useSession()
-  const [dishwashers, setDishwashers] = useState<Eater[]>([])
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const { data: session, status } = useSession();
+  const [dishwashers, setDishwashers] = useState<Eater[]>([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (status !== 'loading' && !session) {
-      router.push('/login')
-    }
-  }, [session, status, router])
-
-  if (status === 'loading') return <div>Laden...</div>
-  if (!session) return null
-
-  useEffect(() => {
-    const dishwasherIds = searchParams.get('dishwashers')
+    const dishwasherIds = searchParams.get("dishwashers");
     if (dishwasherIds) {
-      const ids = JSON.parse(dishwasherIds)
-      fetch('/api/eaters')
-        .then(res => res.json())
+      const ids = JSON.parse(dishwasherIds);
+      fetch("/api/eaters")
+        .then((res) => res.json())
         .then((eaters: Eater[]) => {
-          const selectedDishwashers = eaters.filter(e => ids.includes(e.id))
-          setDishwashers(selectedDishwashers)
-        })
+          const selectedDishwashers = eaters.filter((e) => ids.includes(e.id));
+          setDishwashers(selectedDishwashers);
+        });
     }
-  }, [searchParams])
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (status !== "loading" && !session) {
+      router.push("/login");
+    }
+  }, [session, status, router]);
+
+  if (status === "loading") return <div>Laden...</div>;
+  if (!session) return null;
 
   return (
     <div className="p-8">
@@ -45,21 +40,24 @@ export default function Result() {
       </div>
 
       <div className="max-w-md mx-auto space-y-4 mb-8">
-        {dishwashers.map(dishwasher => (
-          <div key={dishwasher.id} className="p-4 bg-blue-100 border-2 border-blue-300 rounded-lg text-center">
+        {dishwashers.map((dishwasher) => (
+          <div
+            key={dishwasher.id}
+            className="p-4 bg-blue-100 border-2 border-blue-300 rounded-lg text-center"
+          >
             <div className="text-xl font-bold">{dishwasher.name}</div>
           </div>
         ))}
       </div>
 
       <div className="text-center">
-        <button 
-          onClick={() => router.push('/')} 
+        <button
+          onClick={() => router.push("/")}
           className="p-3 bg-green-500 text-white rounded-lg"
         >
           Terug naar Home
         </button>
       </div>
     </div>
-  )
+  );
 }

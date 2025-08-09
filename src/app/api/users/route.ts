@@ -51,7 +51,7 @@ export async function DELETE(request: NextRequest) {
     db.prepare("DELETE FROM users WHERE id = ?").run(id);
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to delete user" },
       { status: 500 }
